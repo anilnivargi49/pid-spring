@@ -225,21 +225,6 @@ INSERT INTO measurements VALUES(61,'Wt/Force',3);
 INSERT INTO measurements VALUES(62,'Wt/Frc_Diffl',3);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+CREATE SEQUENCE master_list-seq START WITH 2;
+ALTER TABLE master_list ALTER COLUMN id SET DEFAULT nextval('master_list-seq');
+ALTER TABLE master_list ALTER COLUMN isa_code TYPE VARCHAR(10);

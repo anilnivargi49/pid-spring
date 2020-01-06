@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +21,15 @@ public class MasterListController {
 	private MasterListService masterListService;
 
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<MasterListDTO> home() {
+	public List<MasterListDTO> getAllMasterLists() {
 
 		return masterListService.getMasterListDetails();
 	}
 
 	@PostMapping(value = "/createOrUpdate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<MasterListDTO> createOrUpdate() {
+	public List<MasterListDTO> createOrUpdate(@RequestBody MasterListDTO masterListDTO) {
 
-		return masterListService.getMasterListDetails();
+		return masterListService.createOrUpdateMasterList(masterListDTO);
 	}
 
 }

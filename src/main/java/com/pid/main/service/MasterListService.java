@@ -8,4 +8,6 @@ public interface MasterListService {
 
 	public List<MasterListDTO> getMasterListDetails();
 
+	public List<MasterListDTO> createOrUpdateMasterList(MasterListDTO masterListDTO);
+
 }

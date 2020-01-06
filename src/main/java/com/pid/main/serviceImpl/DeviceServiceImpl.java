@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pid.main.Util.TemplateUtil;
+import com.pid.main.dto.DeviceDTO;
 import com.pid.main.dto.TemplateDTO;
 import com.pid.main.model.DeviceTemplates;
 import com.pid.main.model.MasterList;
+import com.pid.main.model.PIDDevice;
+import com.pid.main.repository.DeviceRepository;
 import com.pid.main.repository.DeviceTemplateRepository;
 import com.pid.main.repository.MasterListRepository;
 import com.pid.main.service.DeviceService;
@@ -30,6 +33,9 @@ public class DeviceServiceImpl implements DeviceService {
 	@Autowired
 	private DeviceTemplateRepository deviceTemplateRepository;
 
+	@Autowired
+	private DeviceRepository deviceRepository;
+
 	@Override
 	public List<TemplateDTO> getAllTemplates(Integer id) {
 
@@ -37,6 +43,11 @@ public class DeviceServiceImpl implements DeviceService {
 		List<MasterList> masterList = masterListRepository.getAlltemplatesByDeviceId(id);
 		templateList = setDynamicTemplateValues(masterList);
 		return templateList;
+	}
+
+	@Override
+	public List<DeviceDTO> getAllDevices() {
+		return (convertModelEntityToDTO(deviceRepository.findAll()));
 	}
 
 	private List<TemplateDTO> setDynamicTemplateValues(List<MasterList> masterList) {
@@ -67,7 +78,12 @@ public class DeviceServiceImpl implements DeviceService {
 		}
 
 		Map<String, String> templateValueMap = new HashMap<>();
-		templateValueMap.put("isaCode", "abc");
+		templateValueMap.put("pid_ref", masterList.getPidReference().getPIDReference());
+		templateValueMap.put("loop_no", masterList.getLoopNo().toString());
+		templateValueMap.put("service_area", masterList.getServiceAreaCode().getServiceArea());
+		templateValueMap.put("device", masterList.getPidDevice().getDeviceName());
+		templateValueMap.put("functionality", masterList.getDeviceFunction().getDeviceFunction());
+		templateValueMap.put("measurement", masterList.getMeasurement().getMeasurement());
 
 		StringWriter stringWriter = new StringWriter();
 		try {
@@ -78,6 +94,18 @@ public class DeviceServiceImpl implements DeviceService {
 		}
 
 		return new TemplateDTO("template", stringWriter.toString());
+	}
+
+	private List<DeviceDTO> convertModelEntityToDTO(List<PIDDevice> deviceList) {
+
+		List<DeviceDTO> deviceListDTO = new ArrayList<>();
+		if (deviceList != null && deviceList.size() > 0) {
+			for (PIDDevice pidDevice : deviceList) {
+				DeviceDTO deviceDTO = new DeviceDTO(pidDevice);
+				deviceListDTO.add(deviceDTO);
+			}
+		}
+		return deviceListDTO;
 	}
 
 }

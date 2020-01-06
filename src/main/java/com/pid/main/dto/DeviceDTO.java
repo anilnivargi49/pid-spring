@@ -1,10 +1,18 @@
 package com.pid.main.dto;
 
+import com.pid.main.model.PIDDevice;
+
 public class DeviceDTO {
 
 	private Integer id;
 	private String deviceName;
 	private boolean active;
+
+	public DeviceDTO(PIDDevice pidDevice) {
+		this.id = pidDevice.getId();
+		this.deviceName = pidDevice.getDeviceName();
+		this.active = pidDevice.isActive();
+	}
 
 	public Integer getId() {
 		return id;

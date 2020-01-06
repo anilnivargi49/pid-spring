@@ -1,10 +1,18 @@
 package com.pid.main.dto;
 
+import com.pid.main.model.PIDReference;
+
 public class PIDReferenceDTO {
 
 	private Integer id;
 	private String pidReference;
 	private boolean active;
+
+	public PIDReferenceDTO(PIDReference pidRef) {
+		this.id = pidRef.getId();
+		this.pidReference = pidRef.getPIDReference();
+		this.active = pidRef.isActive();
+	}
 
 	public Integer getId() {
 		return id;

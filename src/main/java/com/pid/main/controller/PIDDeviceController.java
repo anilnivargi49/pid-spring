@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pid.main.dto.DeviceDTO;
 import com.pid.main.dto.TemplateDTO;
 import com.pid.main.service.DeviceService;
 
@@ -22,6 +23,12 @@ public class PIDDeviceController {
 	public List<TemplateDTO> getAllTemplates(@PathVariable("id") Integer id) {
 
 		return deviceService.getAllTemplates(id);
+	}
+
+	@GetMapping("/list")
+	public List<DeviceDTO> getAllDevices() {
+
+		return deviceService.getAllDevices();
 	}
 
 }
