@@ -9,4 +9,5 @@ public interface ServiceAreaCodeRepository extends JpaRepository<ServiceAreaCode
 
 	@Query("SELECT s FROM ServiceAreaCode s Where s.serviceArea=?1")
 	public ServiceAreaCode getServiceByServiceName(String serviceName);
+
 }

@@ -44,7 +44,9 @@ public class MasterListServiceImpl implements MasterListService {
 		List<MasterListDTO> masterListDTO = new ArrayList<>();
 		List<MasterList> masterLists = (List<MasterList>) masterListRepository.findAll();
 
-		convertEntityToDtoList(masterLists, masterListDTO);
+		// convertEntityToDtoList(masterLists, masterListDTO);
+
+		converMasterListEntityToDTOList(masterLists, masterListDTO);
 
 		return masterListDTO;
 
@@ -61,6 +63,35 @@ public class MasterListServiceImpl implements MasterListService {
 		convertEntityToDtoList(masterLists, masterListDTOList);
 
 		return masterListDTOList;
+	}
+
+	private List<MasterListDTO> converMasterListEntityToDTOList(List<MasterList> entityList,
+			List<MasterListDTO> masterListDTO) {
+
+		if (entityList != null && entityList.size() > 0) {
+			for (MasterList masterList : entityList) {
+				MasterListDTO masterDTO = new MasterListDTO();
+				masterDTO.setId(masterList.getId());
+				masterDTO.setServiceArea(masterList.getServiceAreaCode().getServiceArea());
+				masterDTO.setServiceAreaListFromEntity(serviceAreaCodeRepository.findAll());
+				masterDTO.setPidReference(masterList.getPidReference().getPIDReference());
+				masterDTO.setPidReferenceListFromEntity(pidReferenceRepository.findAll());
+				masterDTO.setDeviceName(masterList.getPidDevice().getDeviceName());
+				masterDTO.setDeviceListFromEntity(deviceRepository.findAll());
+				masterDTO.setDeviceFunction(masterList.getDeviceFunction().getDeviceFunction());
+				masterDTO.setDeviceFunctionListFromEntity(
+						deviceFunctionRepository.findAllByDevice(masterList.getPidDevice()));
+				masterDTO.setMeasurement(masterList.getMeasurement().getMeasurement());
+				masterDTO.setMeasurementListFromEntity(
+						measurementsRepository.findAllByFunction(masterList.getDeviceFunction()));
+				masterDTO.setDeviceTag(masterList.getDeviceTag());
+				masterDTO.setIsaCode(masterList.getIsaCode());
+				masterDTO.setLoopNo(masterList.getLoopNo());
+				masterDTO.setNoOfWires(masterList.getNoOfWires());
+				masterListDTO.add(masterDTO);
+			}
+		}
+		return masterListDTO;
 	}
 
 	private List<MasterListDTO> convertEntityToDtoList(List<MasterList> entityList, List<MasterListDTO> masterListDTO) {
@@ -101,7 +132,7 @@ public class MasterListServiceImpl implements MasterListService {
 		masterList.setDeviceFunction(deviceFunctionRepository.getDevFunctionByFunctionName(masterList.getPidDevice(),
 				masterListDTO.getDeviceFunction()));
 		masterList.setMeasurement(measurementsRepository
-				.getMeasurementsByMeasurementName(masterList.getDeviceFunction(), masterListDTO.getMeasurement()));
+				.getMeasurementsByMeasurementName(masterList.getDeviceFunction(), masterListDTO.getMeasurementId()));
 
 		masterList.setIsaCode(masterListDTO.getIsaCode());
 		masterList.setLoopNo(masterListDTO.getLoopNo());

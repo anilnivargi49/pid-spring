@@ -3,6 +3,7 @@ package com.pid.main.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,10 @@ public class PIDDeviceController {
 	@Autowired
 	private DeviceService deviceService;
 
-	@GetMapping("/{id}/template")
-	public List<TemplateDTO> getAllTemplates(@PathVariable("id") Integer id) {
+	@GetMapping(value = "/{id}/template", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<TemplateDTO> getAllTemplates(@PathVariable("id") String id) {
 
-		return deviceService.getAllTemplates(id);
+		return deviceService.getAllTemplates(Integer.parseInt(id));
 	}
 
 	@GetMapping("/list")
