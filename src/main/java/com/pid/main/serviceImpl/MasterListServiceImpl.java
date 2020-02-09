@@ -121,18 +121,17 @@ public class MasterListServiceImpl implements MasterListService {
 		if (masterListDTO.getId() > 0) {
 			masterList.setId(masterListDTO.getId());
 		}
-		masterList.setPidReference(pidReferenceRepository.getReferenceByRefName(masterListDTO.getPidReference()));
+		masterList.setPidReference(
+				pidReferenceRepository.getReferenceById(Integer.parseInt(masterListDTO.getPidReference())));
 		if (masterListDTO.getDeviceName() != null) {
-			PIDDevice pidDevice = deviceRepository.getDeviceByDeviceName(masterListDTO.getDeviceName());
+			PIDDevice pidDevice = deviceRepository.getDeviceById(Integer.parseInt(masterListDTO.getDeviceName()));
 			masterList.setPidDevice(pidDevice);
 		}
-		masterList
-				.setServiceAreaCode(serviceAreaCodeRepository.getServiceByServiceName(masterListDTO.getServiceArea()));
+		masterList.setServiceAreaCode(
+				serviceAreaCodeRepository.getServiceById(Integer.parseInt(masterListDTO.getServiceArea())));
 
-		masterList.setDeviceFunction(deviceFunctionRepository.getDevFunctionByFunctionName(masterList.getPidDevice(),
-				masterListDTO.getDeviceFunction()));
-		masterList.setMeasurement(measurementsRepository
-				.getMeasurementsByMeasurementName(masterList.getDeviceFunction(), masterListDTO.getMeasurementId()));
+		masterList.setDeviceFunction(deviceFunctionRepository.getDevFunctionById(masterListDTO.getDeviceFunctionId()));
+		masterList.setMeasurement(measurementsRepository.getMeasurementById(masterListDTO.getMeasurementId()));
 
 		masterList.setIsaCode(masterListDTO.getIsaCode());
 		masterList.setLoopNo(masterListDTO.getLoopNo());

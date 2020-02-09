@@ -10,4 +10,7 @@ public interface PIDReferenceRepository extends JpaRepository<PIDReference, Inte
 	@Query("SELECT r FROM PIDReference r Where r.PIDReference=?1")
 	public PIDReference getReferenceByRefName(String refName);
 
+	@Query("SELECT r FROM PIDReference r Where r.id=?1")
+	public PIDReference getReferenceById(Integer pidId);
+
 }

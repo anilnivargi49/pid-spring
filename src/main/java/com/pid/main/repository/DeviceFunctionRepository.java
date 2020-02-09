@@ -19,4 +19,7 @@ public interface DeviceFunctionRepository extends JpaRepository<DeviceFunction, 
 	@Query("SELECT f FROM DeviceFunction f Where f.pidDevice.id=?1")
 	public List<DeviceFunction> findAllByDeviceId(Integer deviceId);
 
+	@Query("SELECT f FROM DeviceFunction f Where f.id=?1")
+	public DeviceFunction getDevFunctionById(Integer functionId);
+
 }

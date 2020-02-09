@@ -10,4 +10,7 @@ public interface DeviceRepository extends JpaRepository<PIDDevice, Integer> {
 	@Query("SELECT d FROM PIDDevice d Where d.deviceName=?1")
 	public PIDDevice getDeviceByDeviceName(String deviceName);
 
+	@Query("SELECT d FROM PIDDevice d Where d.id=?1")
+	public PIDDevice getDeviceById(Integer deviceId);
+
 }

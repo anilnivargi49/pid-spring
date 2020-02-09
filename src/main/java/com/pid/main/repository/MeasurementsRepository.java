@@ -15,4 +15,7 @@ public interface MeasurementsRepository extends JpaRepository<Measurements, Inte
 
 	@Query("SELECT m FROM Measurements m Where m.deviceFunction=?1")
 	public List<Measurements> findAllByFunction(DeviceFunction deviceFunction);
+
+	@Query("SELECT m FROM Measurements m Where m.id=?1")
+	public Measurements getMeasurementById(Integer measurementId);
 }
